@@ -1,10 +1,16 @@
 package com.codepath.apps.critter_redux.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.critter_redux.R;
+import com.codepath.apps.critter_redux.adapters.TweetsPagerAdapter;
 
 
 public class TimelineActivity extends AppCompatActivity {
@@ -23,9 +29,9 @@ public class TimelineActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setupPagedFragments();
 
         //setupComposeBehavior();//todo: to be moved I believe
-
 
 
 //        fm = getSupportFragmentManager();
@@ -36,8 +42,20 @@ public class TimelineActivity extends AppCompatActivity {
 
     }
 
+    private void setupPagedFragments() {
+        ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
+        vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager()));
+
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabstrip);
+        tabStrip.setViewPager(vpPager);
+    }
 
 
+    //launch the profile view
+    public void onProfileView(MenuItem mi) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
+    }
 
 
 
@@ -55,8 +73,8 @@ public class TimelineActivity extends AppCompatActivity {
                         *//** BEGIN IMPORTANT BLOCK *//*
                         postTweet(tweetBody);
                         *//** This block is to be commented/deleted, only used to avoid tweeting every time I test.
-                         ALSO DO NOT FORGET TO UNCOMMENT THE ABOVE CALL TO postTweet!!
-                         *//*
+     ALSO DO NOT FORGET TO UNCOMMENT THE ABOVE CALL TO postTweet!!
+     *//*
 //                        try {
 //                            //create dummy tweet
 //                            Tweet newTweet = Tweet.fromJSON(new JSONObject(DummyData.DUMMY_TWEET));
@@ -82,13 +100,9 @@ public class TimelineActivity extends AppCompatActivity {
     */
 
 
-
-
     //todo: improve API calls by adding since_id (?)
 
     //todo: change bar title
-
-
 
 
 //todo: to be moved to a different fragment I believe
@@ -125,14 +139,16 @@ public class TimelineActivity extends AppCompatActivity {
 */
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_timeline, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_timeline, menu);
-//        return true;
-//    }
-
-
+        return super.onOptionsItemSelected(item);
+    }
 }
