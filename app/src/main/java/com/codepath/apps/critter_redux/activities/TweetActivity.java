@@ -24,6 +24,10 @@ public class TweetActivity extends AppCompatActivity {
     private TextView tvBody;
 
 
+    //todo: add 'go back' functionality to go back to timeline
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

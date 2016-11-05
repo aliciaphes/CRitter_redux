@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.codepath.apps.critter_redux.activities.TimelineActivity">
+    android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,32 +19,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/swipeContainer"
+    <fragment
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvTweets"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <!-- android:layout_gravity="fill_vertical"-->
-
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_compose"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_create_white_48dp"
-        app:backgroundTint="@android:color/holo_blue_light"
-        app:layout_anchor="@id/rvTweets"
-        app:layout_anchorGravity="bottom|right|end" />
+        android:name="com.codepath.apps.critter_redux.fragments.HomeTimelineFragment"
+        android:id="@+id/fragment_timeline" />
 
-</android.support.design.widget.CoordinatorLayout>
+
+</LinearLayout>
