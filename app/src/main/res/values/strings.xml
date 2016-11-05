@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CRitter</string>
+    <string name="login_label">Log in using Twitter</string>
+    <string name="title_activity_timeline">Home Timeline</string>
+    <string name="cancel">Cancel</string>
+    <string name="post">Post</string>
+    <string name="your_tweet_goes_here">Your tweet goes here</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="welcome">Welcome to CRitter...redux!</string>
+    <string name="on_user_exception">User exception detected, possibly too many calls</string>
+    <string name="device_not_connected">Device is not connected</string>
+</resources>
