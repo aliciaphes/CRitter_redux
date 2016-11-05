@@ -84,7 +84,7 @@ public class TimelineActivity extends AppCompatActivity {
 
 
 
-    //todo: improve API calls by adding since_id
+    //todo: improve API calls by adding since_id (?)
 
     //todo: change bar title
 

@@ -22,14 +22,14 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class HomeTimelineFragment extends TweetListFragment {
+public class MentionsTimelineFragment extends TweetListFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //first call, max_id is -1 so it won't be included as parameter in the API call
-        //populateTimeline(index);
+        //populateMentionsTimeline(index);
         getLocalTweets();
     }
 
@@ -60,7 +60,7 @@ public class HomeTimelineFragment extends TweetListFragment {
             @Override
             public void onLoadMore(long max_id, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list of tweets
-                //populateTimeline(index);
+                //populateMentionsTimeline(index);
                 getLocalTweets();
             }
         };
@@ -84,7 +84,7 @@ public class HomeTimelineFragment extends TweetListFragment {
 
                 //reset index and call get home timeline again
                 index = -1L;
-                //populateTimeline(index);
+                //populateMentionsTimeline(index);
                 getLocalTweets();
 
                 swipeContainer.setRefreshing(false);
@@ -93,14 +93,17 @@ public class HomeTimelineFragment extends TweetListFragment {
     }
 
 
+
+
+
     //send API request to get the timeline JSON
     //and fill the recyclerview with the data retrieved by creating tweet objects
-    private void populateTimeline(long maxId) {
+    private void populateMentionsTimeline(long maxId) {
 
         //check connectivity:
         if (Utilities.isNetworkAvailable(getContext()) && Utilities.isOnline()) {
 
-            twitterClient.getHomeTimeline(new JsonHttpResponseHandler() {
+            twitterClient.getMentionsTimeline(new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     // deserialize the response and create models
@@ -138,6 +141,8 @@ public class HomeTimelineFragment extends TweetListFragment {
             Toast.makeText(getContext(), R.string.device_not_connected, Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
 
 }
