@@ -29,7 +29,7 @@ public class UserTimelineFragment extends TweetListFragment {
         super.onCreate(savedInstanceState);
 
         //first call, max_id is -1 so it won't be included as parameter in the API call
-        populateUserTimeline(index);
+        populateTimeline(index);
         //getLocalTweets();
     }
 
@@ -38,21 +38,9 @@ public class UserTimelineFragment extends TweetListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, parent, savedInstanceState);
-        setRefreshOnSwipe();
-
         return v;
     }
 
-
-    @Override
-    public void onStart() {//called once the fragment gets visible
-        super.onStart();
-
-        enableInfiniteScroll();
-
-        setRefreshOnSwipe();
-
-    }
 
 
     public void enableInfiniteScroll() {
@@ -60,7 +48,7 @@ public class UserTimelineFragment extends TweetListFragment {
             @Override
             public void onLoadMore(long max_id, int totalItemsCount, RecyclerView view) {
                 // Triggered only when new data needs to be appended to the list of tweets
-                populateUserTimeline(index);
+                populateTimeline(index);
                 //getLocalTweets();
             }
         };
@@ -83,7 +71,7 @@ public class UserTimelineFragment extends TweetListFragment {
 
                 //reset index and call get home timeline again
                 index = -1L;
-                populateUserTimeline(index);
+                populateTimeline(index);
                 //getLocalTweets();
 
                 swipeContainer.setRefreshing(false);
@@ -109,7 +97,7 @@ public class UserTimelineFragment extends TweetListFragment {
 
     //send API request to get the timeline JSON
     //and fill the recyclerview with the data retrieved by creating tweet objects
-    private void populateUserTimeline(long maxId) {
+    public void populateTimeline(long maxId) {
 
         //check connectivity:
         if (Utilities.isNetworkAvailable(getContext()) && Utilities.isOnline()) {

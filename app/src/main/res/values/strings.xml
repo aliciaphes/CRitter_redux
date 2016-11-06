@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">CRitter redux</string>
     <string name="login_label">Log in using Twitter</string>
-    <string name="title_activity_timeline">Home Timeline</string>
+    <string name="title_activity_timeline">CRitter timeline</string>
     <string name="cancel">Cancel</string>
     <string name="post">Post</string>
     <string name="your_tweet_goes_here">Your tweet goes here</string>

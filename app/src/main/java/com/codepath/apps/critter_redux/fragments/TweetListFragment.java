@@ -28,22 +28,22 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class TweetListFragment extends Fragment {
+public abstract class TweetListFragment extends Fragment {
 
-    public TwitterClient twitterClient;
+    protected TwitterClient twitterClient;
 
-    long index = -1L;
+    protected long index = -1L;
 
-    ArrayList<Tweet> tweets;
-    TweetsAdapter tweetsAdapter;
+    protected ArrayList<Tweet> tweets;
+    protected TweetsAdapter tweetsAdapter;
 
-    LinearLayoutManager linearLayoutManager;
+    protected LinearLayoutManager linearLayoutManager;
 
-    EndlessRecyclerViewScrollListener scrollListener;
+    protected EndlessRecyclerViewScrollListener scrollListener;
 
-    RecyclerView rvTweets;
+    protected RecyclerView rvTweets;
 
-    SwipeRefreshLayout swipeContainer;
+    protected SwipeRefreshLayout swipeContainer;
 
 
     @Nullable
@@ -72,12 +72,23 @@ public class TweetListFragment extends Fragment {
         tweets = new ArrayList<>();
         tweetsAdapter = new TweetsAdapter(getActivity(), tweets);
 
-        enableClickableTweets(); //todo: find out why it only works when clicking on handle
-
     }
 
 
-    public void refreshTimelineAndScrollUp(Tweet newTweet) {
+    @Override
+    public void onStart() {//called once the fragment gets visible
+        super.onStart();
+
+        enableInfiniteScroll();
+
+        setRefreshOnSwipe();
+
+        enableClickableTweets(); //todo: find out why it only works when clicking on handle
+    }
+
+
+
+    protected void refreshTimelineAndScrollUp(Tweet newTweet) {
         tweets.add(0, newTweet);
 
         tweetsAdapter.notifyItemInserted(0);
@@ -89,7 +100,7 @@ public class TweetListFragment extends Fragment {
     }
 
 
-    public void updateIndex() {
+    protected void updateIndex() {
         //calculate new value for max_id for the API call: get the latest tweet and subtract 1
         Tweet endTweet = tweets.get(tweets.size() - 1);
         long endTweetId = endTweet.getTweetID();
@@ -102,7 +113,7 @@ public class TweetListFragment extends Fragment {
 
 
 
-    public void getLocalTweets() {
+    protected void getLocalTweets() {
         JSONArray jsonArray = DummyData.getDummyTimeline(getContext());
         ArrayList<Tweet> tweetList = Tweet.fromJSONArray(jsonArray);
         int currentSize = tweets.size();
@@ -113,8 +124,7 @@ public class TweetListFragment extends Fragment {
 
 
 
-
-    public void enableClickableTweets() {
+    protected void enableClickableTweets() {
         tweetsAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -134,4 +144,47 @@ public class TweetListFragment extends Fragment {
         });
     }
 
+
+    public void enableInfiniteScroll() {
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(long max_id, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list of tweets
+                //populateTimeline(index);
+                getLocalTweets();
+            }
+        };
+
+        // Add the scroll listener to RecyclerView
+        rvTweets.addOnScrollListener(scrollListener);
+    }
+
+
+
+    protected void setRefreshOnSwipe() {
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                int size = tweets.size();
+                tweets.clear();
+                //tweetsAdapter.clear();
+                //notify the changes
+                tweetsAdapter.notifyItemRangeRemoved(0, size);
+
+                //reset index and call get home timeline again
+                index = -1L;
+                //populateTimeline(index);
+                getLocalTweets();
+
+                swipeContainer.setRefreshing(false);
+            }
+        });
+    }
+
+
+
+    // Abstract method to be overridden depending on which tab is displaying
+    protected abstract void populateTimeline(long maxId);
 }
