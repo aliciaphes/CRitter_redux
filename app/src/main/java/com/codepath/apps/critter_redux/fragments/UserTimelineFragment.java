@@ -3,15 +3,12 @@ package com.codepath.apps.critter_redux.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codepath.apps.critter_redux.R;
-import com.codepath.apps.critter_redux.listeners.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.critter_redux.models.Tweet;
 import com.codepath.apps.critter_redux.util.Utilities;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -29,8 +26,8 @@ public class UserTimelineFragment extends TweetListFragment {
         super.onCreate(savedInstanceState);
 
         //first call, max_id is -1 so it won't be included as parameter in the API call
-        populateTimeline(index);
-        //getLocalTweets();
+        //populateTimeline(index);
+        getLocalTweets();
     }
 
 
@@ -42,57 +39,16 @@ public class UserTimelineFragment extends TweetListFragment {
     }
 
 
-
-    public void enableInfiniteScroll() {
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(long max_id, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list of tweets
-                populateTimeline(index);
-                //getLocalTweets();
-            }
-        };
-
-        // Add the scroll listener to RecyclerView
-        rvTweets.addOnScrollListener(scrollListener);
-    }
-
-
-    public void setRefreshOnSwipe() {
-
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                int size = tweets.size();
-                tweets.clear();
-                //notify the changes
-                tweetsAdapter.notifyItemRangeRemoved(0, size);
-
-                //reset index and call get home timeline again
-                index = -1L;
-                populateTimeline(index);
-                //getLocalTweets();
-
-                swipeContainer.setRefreshing(false);
-            }
-        });
-    }
-
-
-
     // Creates a new fragment
     public static UserTimelineFragment newInstance(String screenName) {
-        UserTimelineFragment fragmentDemo = new UserTimelineFragment();
+        UserTimelineFragment fragmentInstance = new UserTimelineFragment();
 
         Bundle args = new Bundle();
         args.putString("screen_name", screenName);
-        fragmentDemo.setArguments(args);
+        fragmentInstance.setArguments(args);
 
-        return fragmentDemo;
+        return fragmentInstance;
     }
-
-
 
 
     //send API request to get the timeline JSON
