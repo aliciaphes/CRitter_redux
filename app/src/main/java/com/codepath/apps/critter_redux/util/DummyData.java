@@ -5,6 +5,7 @@ import android.content.Context;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +13,10 @@ import java.io.InputStream;
 public class DummyData {
 
 
-    public static final String FILE_NAME = "DummyTimeline.txt";
+    public static final String DUMMY_TIMELINE = "DummyTimeline.txt";
+
+    public static final String DUMMY_PROFILE = "my_profile.json";
+
 
     public static final String DUMMY_TWEET = "{\n" +
             "  \"coordinates\": null,\n" +
@@ -108,7 +112,7 @@ public class DummyData {
 
         //todo: ...reading from json file (using background thread) goes here...
 
-        String str = loadJSONFromFile(context);
+        String str = loadJSONFromFile(context, DUMMY_TIMELINE);
 
         //the file already contains the array we need
 
@@ -120,6 +124,29 @@ public class DummyData {
         }
         return jsonArray;
     }
+
+
+
+
+
+    public static JSONObject getDummyProfile(Context context) {
+        JSONObject jsonObject = new JSONObject();
+
+        String str = loadJSONFromFile(context, DUMMY_PROFILE);
+
+        try {
+            jsonObject = new JSONObject(str);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+
+
+
+
+
 
 
 //        JSONParser parser = new JSONParser();
@@ -158,13 +185,13 @@ public class DummyData {
 
 //todo: http://stackoverflow.com/questions/35000998/how-do-i-turn-a-json-file-into-a-java-8-object-stream
 
-    public static String loadJSONFromFile(Context context)  {
+    public static String loadJSONFromFile(Context context, String path)  {
         String json;
         InputStream is;
 
         try {
-            //is = new FileInputStream(FILE_NAME);
-            is = context.getAssets().open(FILE_NAME);
+            //is = new FileInputStream(path);
+            is = context.getAssets().open(path);
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);

@@ -67,7 +67,7 @@ public class TwitterClient extends OAuthBaseClient {
     }
 
 
-    public void getMentionsTimeline(AsyncHttpResponseHandler handler, long maxId){
+    public void getMentionsTimeline(AsyncHttpResponseHandler handler, long maxId) {
         String apiURL = getApiUrl("statuses/mentions_timeline.json");
 
         RequestParams params = new RequestParams();
@@ -84,14 +84,40 @@ public class TwitterClient extends OAuthBaseClient {
     }
 
 
+    public void getUserTimeline(AsyncHttpResponseHandler handler, long maxId, String screenName) {
+        String apiURL = getApiUrl("statuses/user_timeline.json");
 
-    public void postTweet(AsyncHttpResponseHandler handler, String tweet){
+        RequestParams params = new RequestParams();
+        params.put("count", NUM_TWEETS_TO_RETRIEVE);
+
+        params.put("screen_name", screenName);
+
+        //maxId: Returns results with an ID less than (i.e. older than) or equal to the specified ID.
+        if (maxId != -1L) {//not the first call
+            params.put("max_id", maxId);
+        }
+
+        //execute the request, which will be handled by handler:
+        getClient().get(apiURL, params, handler);
+    }
+
+
+    public void getUserInfo(AsyncHttpResponseHandler handler) {
+        String apiURL = getApiUrl("account/verify_credentials.json");
+
+        //execute the request, which will be handled by handler:
+        getClient().get(apiURL, null, handler);
+    }
+
+
+    public void postTweet(AsyncHttpResponseHandler handler, String tweetText) {
         String apiURL = getApiUrl("statuses/update.json");
 
         RequestParams params = new RequestParams();
-        params.put("status", tweet);
+        params.put("status", tweetText);
 
         //execute the request:
         getClient().post(apiURL, params, handler);
     }
+
 }
