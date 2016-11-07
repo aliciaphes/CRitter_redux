@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import com.codepath.apps.critter_redux.R;
 import com.codepath.apps.critter_redux.fragments.UserHeaderFragment;
 import com.codepath.apps.critter_redux.fragments.UserTimelineFragment;
+import com.codepath.apps.critter_redux.util.Utilities;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -17,8 +18,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Utilities.GoToPreviousScreenWithToolbar(this);
 
         //retrieve the screen name from the intent:
         String screenName = getIntent().getStringExtra("screen_name");

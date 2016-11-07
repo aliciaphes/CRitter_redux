@@ -13,6 +13,11 @@
         <!--<item name="android:windowTranslucentStatus">true</item>-->
     </style>
 
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!--<item name="android:titleTextColor">@color/accent</item>-->
+        <item name="android:background">@color/primary</item>
+    </style>
+
     <style name="counterText">
         <item name="android:textColor">@android:color/holo_blue_light</item>
     </style>

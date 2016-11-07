@@ -4,7 +4,13 @@ package com.codepath.apps.critter_redux.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
+import android.view.View;
+
+import com.codepath.apps.critter_redux.R;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -53,6 +59,23 @@ public class Utilities {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static void GoToPreviousScreenWithToolbar(final AppCompatActivity activity) {
+        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+        activity.setSupportActionBar(toolbar);
+
+        ActionBar actionBar = activity.getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        //actionBar.setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //handleOnBackPress();
+                activity.finish();
+            }
+        });
     }
 
 }

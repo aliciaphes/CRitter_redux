@@ -18,6 +18,9 @@
         android:id="@+id/tabstrip"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        app:pstsDividerColor="@android:color/holo_blue_light"
+        app:pstsIndicatorColor="@android:color/holo_blue_light"
+        app:pstsUnderlineColor="@android:color/holo_blue_light"
         app:pstsShouldExpand="true"
         app:pstsTextAllCaps="true" />
 
