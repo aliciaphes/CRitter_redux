@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+//this fragment will display the timeline associated with a user specified as argument
 public class UserTimelineFragment extends TweetListFragment {
 
     private User currentUser;
@@ -55,12 +56,10 @@ public class UserTimelineFragment extends TweetListFragment {
     }
 
     // Creates a new fragment
-    //public static UserTimelineFragment newInstance(String screenName) {
     public static UserTimelineFragment newInstance(User currentUser) {
         UserTimelineFragment fragmentInstance = new UserTimelineFragment();
 
         Bundle args = new Bundle();
-        //args.putString("screen_name", screenName);
         args.putParcelable("user", Parcels.wrap(currentUser));
         fragmentInstance.setArguments(args);
 
@@ -74,8 +73,6 @@ public class UserTimelineFragment extends TweetListFragment {
 
         //check connectivity:
         if (Utilities.isNetworkAvailable(getContext()) && Utilities.isOnline()) {
-
-            //String screenName = getArguments().getString("screen_name");
 
             twitterClient.getUserTimeline(new JsonHttpResponseHandler() {
                 @Override
@@ -126,7 +123,6 @@ public class UserTimelineFragment extends TweetListFragment {
 
                 int size = tweets.size();
                 tweets.clear();
-                //tweetsAdapter.clear();
                 //notify the changes
                 tweetsAdapter.notifyItemRangeRemoved(0, size);
 

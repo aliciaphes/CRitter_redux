@@ -20,13 +20,13 @@ import com.codepath.apps.critter_redux.adapters.TweetsAdapter;
 import com.codepath.apps.critter_redux.listeners.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.critter_redux.listeners.OnItemClickListener;
 import com.codepath.apps.critter_redux.models.Tweet;
-import com.codepath.apps.critter_redux.util.DummyData;
 
-import org.json.JSONArray;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
+//this is an abstract class all fragments that display a list of tweets will inherit from
+//it contains several common methods for this functionality
 public abstract class TweetListFragment extends Fragment {
 
     protected TwitterClient twitterClient;
@@ -93,7 +93,7 @@ public abstract class TweetListFragment extends Fragment {
 
         Toast.makeText(getContext(), "Twitter was added", Toast.LENGTH_SHORT).show();
 
-        //make sure we take new tweet is displayed on timeline:
+        //go to the top to see new tweet is displayed on timeline:
         rvTweets.scrollToPosition(0);
     }
 
@@ -110,14 +110,14 @@ public abstract class TweetListFragment extends Fragment {
 
 
 
-
-    protected void getLocalTweets() {
-        JSONArray jsonArray = DummyData.getDummyTimeline(getContext());
-        ArrayList<Tweet> tweetList = Tweet.fromJSONArray(jsonArray);
-        int currentSize = tweets.size();
-        tweets.addAll(tweetList);
-        tweetsAdapter.notifyItemRangeInserted(currentSize, tweetList.size());
-    }
+//    //dummy method to avoid unnecessary API calls while testing
+//    protected void getLocalTweets() {
+//        JSONArray jsonArray = DummyData.getDummyTimeline(getContext());
+//        ArrayList<Tweet> tweetList = Tweet.fromJSONArray(jsonArray);
+//        int currentSize = tweets.size();
+//        tweets.addAll(tweetList);
+//        tweetsAdapter.notifyItemRangeInserted(currentSize, tweetList.size());
+//    }
 
 
 
@@ -141,71 +141,6 @@ public abstract class TweetListFragment extends Fragment {
             }
         });
     }
-
-
-//    protected MenuItem miActionProgressItem;
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.menu_timeline, menu);
-//        miActionProgressItem = menu.findItem(R.id.mi_action_progress);
-//    }
-//    public void showProgressBar() {
-//        if (miActionProgressItem != null)
-//            miActionProgressItem.setVisible(true);
-//    }
-//
-//    public void hideProgressBar() {
-//        if (miActionProgressItem != null)
-//            miActionProgressItem.setVisible(false);
-//    }
-
-
-
-
-
-//    Menu menu;
-
-//    //Initialize the contents of the Activity's standard options menu.
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-////////        menuInflater.inflate(R.menu.menu_timeline, menu);
-////////        //super.onCreateOptionsMenu(menu, menuInflater);
-////////        getActivity().onCreateOptionsMenu(menu);
-////////        MenuItem pinMenuItem = menu.findItem(R.id.mi_action_progress);
-//////        menuInflater.inflate(R.menu.menu_timeline, menu);
-//////        //getActivity().onCreateOptionsMenu(menu);
-//////        //getActivity().getMenuInflater().inflate(R.menu.menu_timeline, menu);
-//////        MenuItem pinMenuItem = menu.findItem(R.id.mi_action_progress);
-//////        pinMenuItem.setVisible(true);
-////        getActivity().onCreateOptionsMenu(menu);
-////        menu.clear();
-////        menuInflater.inflate(R.menu.menu_timeline, menu);
-////        MenuItem pinMenuItem = menu.findItem(R.id.mi_action_progress);
-////        pinMenuItem.setVisible(true);
-//        this.menu = menu;
-//    }
-
-
-//    @Override
-//    //prepare the items to be displayed
-//    public void onPrepareOptionsMenu(Menu menu) {
-////        getActivity().onPrepareOptionsMenu(menu);
-////        MenuItem pinMenuItem = menu.findItem(R.id.mi_action_progress);
-////        pinMenuItem.setVisible(true);
-////        miActionProgressItem = menu.findItem(R.id.miActionProgress);
-////
-////        super.onPrepareOptionsMenu(menu);
-//        this.menu = menu;
-//    }
-
-
-
-//    private void showProgressBar() {
-//        MenuItem pinMenuItem = menu.findItem(R.id.mi_action_progress);
-//        pinMenuItem.setVisible(true);
-//    }
-
-
-
 
 
 

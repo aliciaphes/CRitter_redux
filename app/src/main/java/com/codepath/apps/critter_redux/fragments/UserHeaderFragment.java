@@ -15,7 +15,6 @@ import com.codepath.apps.critter_redux.R;
 import com.codepath.apps.critter_redux.TwitterApplication;
 import com.codepath.apps.critter_redux.TwitterClient;
 import com.codepath.apps.critter_redux.models.User;
-import com.codepath.apps.critter_redux.util.DummyData;
 import com.codepath.apps.critter_redux.util.Utilities;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
@@ -27,6 +26,7 @@ import org.parceler.Parcels;
 import cz.msebera.android.httpclient.Header;
 
 
+//this fragment will display some information related to the user that we want to display
 public class UserHeaderFragment extends Fragment {
 
     private TwitterClient twitterClient;
@@ -57,32 +57,26 @@ public class UserHeaderFragment extends Fragment {
         //identify the fields to give them values later
         getReferences(view);
 
-        //String screenName = getArguments().getString("screen_name");//todo: get rid of this
-
         currentUser = Parcels.unwrap(getArguments().getParcelable("user"));
         //if user is not null, it means it's not the logged user
         //therefore we already have the information from the user
         //we just need to display it
 
 
-        //if (screenName == null) {
         if (currentUser == null) {
-            //String screenName = currentUser.getScreenName();
             populateUserHeader();
             //populateDummyUserInfo();
         } else {
-            fillWithHeaderValues();
+            fillHeaderWithValues();
         }
     }
 
 
     // Create a new fragment
-    //public static UserHeaderFragment newInstance(String screenName) {
     public static UserHeaderFragment newInstance(User currentUser) {
         UserHeaderFragment fragmentInstance = new UserHeaderFragment();
 
         Bundle args = new Bundle();
-//        args.putString("screen_name", screenName);
         args.putParcelable("user", Parcels.wrap(currentUser));
         fragmentInstance.setArguments(args);
 
@@ -90,11 +84,12 @@ public class UserHeaderFragment extends Fragment {
     }
 
 
-    private void populateDummyUserInfo() {
-        JSONObject jsonObject = DummyData.getDummyProfile(getContext());
-        currentUser = User.fromJSON(jsonObject);
-        fillWithHeaderValues();
-    }
+    //this is a dummy method to avoid unnecessary API calls
+//    private void populateDummyUserInfo() {
+//        JSONObject jsonObject = DummyData.getDummyProfile(getContext());
+//        currentUser = User.fromJSON(jsonObject);
+//        fillWithHeaderValues();
+//    }
 
 
     private void populateUserHeader() {
@@ -113,7 +108,7 @@ public class UserHeaderFragment extends Fragment {
                     currentUser = User.fromJSON(response);
 
                     //visibly show the user's info
-                    fillWithHeaderValues();
+                    fillHeaderWithValues();
                 }
 
                 @Override
@@ -142,7 +137,7 @@ public class UserHeaderFragment extends Fragment {
     }
 
 
-    private void fillWithHeaderValues() {
+    private void fillHeaderWithValues() {
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("@" + currentUser.getScreenName());
 

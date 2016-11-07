@@ -70,7 +70,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
             // Attach a click listener to the 'row' by bubbling up
             LinearLayout ll_textLayout = (LinearLayout) itemView.findViewById(R.id.texts_layout);
-            //itemView.setOnClickListener(new View.OnClickListener() {
             ll_textLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -125,6 +124,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 .into(holder.ivProfileImage);
 
 
+        //set listener for the image in order to launch ProfileActivity
         holder.ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

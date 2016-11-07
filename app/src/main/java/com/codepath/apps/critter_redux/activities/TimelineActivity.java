@@ -21,23 +21,20 @@ import com.codepath.apps.critter_redux.fragments.HomeTimelineFragment;
 import com.codepath.apps.critter_redux.fragments.TweetListFragment;
 import com.codepath.apps.critter_redux.listeners.PostTwitterListener;
 import com.codepath.apps.critter_redux.models.Tweet;
-import com.codepath.apps.critter_redux.util.DummyData;
 import com.codepath.apps.critter_redux.util.Utilities;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
 
+//this activity displays a timeline
 public class TimelineActivity extends AppCompatActivity {
 
     private ViewPager vpPager;
 
     private SmartFragmentStatePagerAdapter adapterViewPager;
-
-    //private TweetListFragment timelineFragment;
 
     private TwitterClient twitterClient;
 
@@ -82,28 +79,24 @@ public class TimelineActivity extends AppCompatActivity {
             public void onPostTwitter(String tweetBody) {
                 composeFragment.dismiss();
 
-                /** BEGIN IMPORTANT BLOCK */
                 postTweet(tweetBody);
-                /** This block is to be commented/deleted, only used to avoid tweeting every time I test.
-                 ALSO DO NOT FORGET TO UNCOMMENT THE ABOVE CALL TO postTweet!!
-                 */
                 //createDummyTweet();
-                /** END IMPORTANT BLOCK */
             }
         });
 
 
     }
 
-    public void createDummyTweet(){
-        try {
-            //create dummy tweet
-            Tweet newTweet = Tweet.fromJSON(new JSONObject(DummyData.DUMMY_TWEET));
-            addAndDisplay(newTweet);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+    //dummy method to avoid posting 'test' tweets in my timeline, I have a reputation!
+//    public void createDummyTweet(){
+//        try {
+//            //create dummy tweet
+//            Tweet newTweet = Tweet.fromJSON(new JSONObject(DummyData.DUMMY_TWEET));
+//            addAndDisplay(newTweet);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 
@@ -114,8 +107,6 @@ public class TimelineActivity extends AppCompatActivity {
 
 
     //todo: improve API calls by adding since_id (?)
-
-    //todo: change bar title
 
 
     private void postTweet(String tweet) {
@@ -148,6 +139,8 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
 
+    //use SmartFragmentStatePagerAdapter to retrieve which fragment is displaying
+    //if it's HomeTimeline, we visibly update the list with the new tweet on top, like a cherry
     protected void addAndDisplay(Tweet newTweet) {
         //get current fragment that is displayed:
         adapterViewPager = (SmartFragmentStatePagerAdapter) vpPager.getAdapter();

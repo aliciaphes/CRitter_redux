@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+//this fragment will display the 'mentions' timeline
 public class MentionsTimelineFragment extends TweetListFragment {
 
     @Override
@@ -48,8 +49,6 @@ public class MentionsTimelineFragment extends TweetListFragment {
         //check connectivity:
         if (Utilities.isNetworkAvailable(getContext()) && Utilities.isOnline()) {
 
-            //((TimelineActivity)getActivity()).showProgressBar();
-
             twitterClient.getMentionsTimeline(new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -71,8 +70,6 @@ public class MentionsTimelineFragment extends TweetListFragment {
                         updateIndex();
                     }
                     swipeContainer.setRefreshing(false);
-
-                    //((TimelineActivity)getActivity()).hideProgressBar();
                 }
 
                 @Override
@@ -100,7 +97,6 @@ public class MentionsTimelineFragment extends TweetListFragment {
 
                 int size = tweets.size();
                 tweets.clear();
-                //tweetsAdapter.clear();
                 //notify the changes
                 tweetsAdapter.notifyItemRangeRemoved(0, size);
 

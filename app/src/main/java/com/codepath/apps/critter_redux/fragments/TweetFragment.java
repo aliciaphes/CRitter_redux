@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+//this fragment will display some information related to a tweet
 public class TweetFragment extends Fragment {
 
     private final int FONT_SIZE = 14;
@@ -109,6 +110,7 @@ public class TweetFragment extends Fragment {
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //launch ProfileActivity to display the author's profile
                 Intent i = new Intent(getActivity(), ProfileActivity.class);
                 i.putExtra("user", Parcels.wrap(currentTweet.getUser()));
                 startActivity(i);

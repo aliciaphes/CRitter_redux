@@ -8,6 +8,7 @@ import com.codepath.apps.critter_redux.R;
 import com.codepath.apps.critter_redux.TwitterClient;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
+//this activity will display the login page to ask for permissions
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
 	@Override

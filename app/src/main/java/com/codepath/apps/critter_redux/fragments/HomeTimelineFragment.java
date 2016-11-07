@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+//this fragment will display a timeline
 public class HomeTimelineFragment extends TweetListFragment {
 
     @Override

@@ -11,6 +11,7 @@ import com.codepath.apps.critter_redux.util.Utilities;
 
 import org.parceler.Parcels;
 
+//this activity displays a tweet with its details
 public class TweetActivity extends AppCompatActivity {
 
 

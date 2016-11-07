@@ -17,6 +17,7 @@ import com.codepath.apps.critter_redux.R;
 import com.codepath.apps.critter_redux.listeners.PostTwitterListener;
 
 
+//this is the dialog that 'prompts' when we want to post a new tweet
 public class ComposeFragment extends DialogFragment {
 
     private PostTwitterListener postTwitterlistener;
@@ -28,8 +29,6 @@ public class ComposeFragment extends DialogFragment {
     private Button btnPost;
 
     private static final int MAX_CHARACTERS_PER_TWEET = 140;
-
-
 
 
 
