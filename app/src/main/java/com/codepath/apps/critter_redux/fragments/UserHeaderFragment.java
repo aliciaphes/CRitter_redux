@@ -18,6 +18,7 @@ import com.codepath.apps.critter_redux.models.User;
 import com.codepath.apps.critter_redux.util.DummyData;
 import com.codepath.apps.critter_redux.util.Utilities;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,6 +42,7 @@ public class UserHeaderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setHasOptionsMenu(true);
     }
 
 
@@ -67,10 +69,11 @@ public class UserHeaderFragment extends Fragment {
         //if (screenName == null) {
         if (currentUser == null) {
             //String screenName = currentUser.getScreenName();
-            //populateUserHeader();
-            populateDummyUserInfo();
+            populateUserHeader();
+            //populateDummyUserInfo();
+        } else {
+            fillWithHeaderValues();
         }
-        fillWithHeaderValues();
     }
 
 
@@ -102,6 +105,8 @@ public class UserHeaderFragment extends Fragment {
         //check connectivity:
         if (Utilities.isNetworkAvailable(getContext()) && Utilities.isOnline()) {
 
+            //showProgressBar();
+
             twitterClient.getUserInfo(new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -109,7 +114,9 @@ public class UserHeaderFragment extends Fragment {
                     currentUser = User.fromJSON(response);
 
                     //visibly show the user's info
-                    //fillWithHeaderValues();
+                    fillWithHeaderValues();
+
+                    //hideProgressBar();
                 }
 
                 @Override
@@ -127,6 +134,7 @@ public class UserHeaderFragment extends Fragment {
             Toast.makeText(getContext(), R.string.device_not_connected, Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void getReferences(View v) {
         tvName = (TextView) v.findViewById(R.id.tv_name);
@@ -146,7 +154,10 @@ public class UserHeaderFragment extends Fragment {
         tvFollowers.setText(Integer.toString(currentUser.getFollowersCount()) + " followers");
         tvFollowing.setText(Integer.toString(currentUser.getFollowingCount()) + " following");
 
-        //todo: picasso on ivImage
+        //load image with Picasso
+        Picasso.with(getContext()).load(currentUser.getProfileURL())
+                .placeholder(R.drawable.placeholder)
+                .into(ivImage);
     }
 
 

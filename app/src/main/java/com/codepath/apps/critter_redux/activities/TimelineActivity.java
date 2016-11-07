@@ -18,7 +18,7 @@ public class TimelineActivity extends AppCompatActivity {
     //private FragmentManager fm;
     //private TweetListFragment timelineFragment;
 
-    //private ComposeFragment composeFragment;//todo: to be moved to another fragment I suppose
+    //private ComposeFragment composeFragment;//
 
 
     @Override
@@ -31,11 +31,10 @@ public class TimelineActivity extends AppCompatActivity {
 
         setupPagedFragments();
 
-        //setupComposeBehavior();//todo: to be moved I believe
+        //setupComposeBehavior();
 
 
 //        fm = getSupportFragmentManager();
-
 //        if (savedInstanceState == null) {
 //            timelineFragment = (TweetListFragment) fm.findFragmentById(R.id.fragment_timeline);
 //        }
@@ -105,7 +104,6 @@ public class TimelineActivity extends AppCompatActivity {
     //todo: change bar title
 
 
-//todo: to be moved to a different fragment I believe
 /*
     private void postTweet(String tweet) {
         if (Utilities.isNetworkAvailable(this) && Utilities.isOnline()) {
@@ -139,16 +137,11 @@ public class TimelineActivity extends AppCompatActivity {
 */
 
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_timeline, menu);
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
-    }
 }

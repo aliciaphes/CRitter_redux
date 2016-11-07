@@ -16,6 +16,7 @@ import com.codepath.apps.critter_redux.R;
 import com.codepath.apps.critter_redux.activities.ProfileActivity;
 import com.codepath.apps.critter_redux.models.Tweet;
 import com.codepath.apps.critter_redux.util.Utilities;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -85,10 +86,10 @@ public class TweetFragment extends Fragment {
     private void setUpValues() {
         //clear image in case it had a previous value
         ivProfileImage.setImageResource(android.R.color.transparent);
-        //then load image with Picasso //todo: not for now
-//        Picasso.with(getContext()).load(currentTweet.getUser().getProfileURL())
-//                .placeholder(R.drawable.placeholder)
-//                .into(ivProfileImage);
+        //then load image with Picasso
+        Picasso.with(getContext()).load(currentTweet.getUser().getProfileURL())
+                .placeholder(R.drawable.placeholder)
+                .into(ivProfileImage);
 
         tvUserName.setText(currentTweet.getUser().getName());
         tvUserName.setTextSize(FONT_SIZE);

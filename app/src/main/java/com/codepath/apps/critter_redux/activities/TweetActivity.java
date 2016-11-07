@@ -32,9 +32,4 @@ public class TweetActivity extends AppCompatActivity {
             ft.commit();
         }
     }
-
-
-
-
-
 }

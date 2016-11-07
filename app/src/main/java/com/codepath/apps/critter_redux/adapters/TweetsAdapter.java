@@ -16,6 +16,7 @@ import com.codepath.apps.critter_redux.listeners.OnItemClickListener;
 import com.codepath.apps.critter_redux.models.Tweet;
 import com.codepath.apps.critter_redux.models.User;
 import com.codepath.apps.critter_redux.util.Utilities;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -118,10 +119,10 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         //clear image in case it had a previous value
         holder.ivProfileImage.setImageResource(android.R.color.transparent);//Color.parseColor("#80000000")
-        //then load image with Picasso //todo: not for now
-//        Picasso.with(getContext()).load(tweet.getUser().getProfileURL())
-//                .placeholder(R.drawable.placeholder)
-//                .into(holder.ivProfileImage);
+        //then load image with Picasso
+        Picasso.with(getContext()).load(tweet.getUser().getProfileURL())
+                .placeholder(R.drawable.placeholder)
+                .into(holder.ivProfileImage);
 
 
         holder.ivProfileImage.setOnClickListener(new View.OnClickListener() {

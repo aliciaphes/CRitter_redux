@@ -24,15 +24,14 @@
         android:id="@+id/fl_user_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/incl_toolbar">
-    </FrameLayout>
+        android:layout_below="@+id/incl_toolbar"></FrameLayout>
 
     <FrameLayout
         android:id="@+id/fl_user_timeline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignLeft="@+id/fl_user_header"
-        android:layout_below="@+id/fl_user_header">
-    </FrameLayout>
+        android:layout_below="@+id/fl_user_header"></FrameLayout>
+
 
 </RelativeLayout>

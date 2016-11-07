@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/ToolbarTheme"
         app:title="@string/app_name"
-        app:titleTextColor="@color/accent"
+        app:titleTextColor="@android:color/white"
         android:minHeight="?attr/actionBarSize" />
 
 </LinearLayout>

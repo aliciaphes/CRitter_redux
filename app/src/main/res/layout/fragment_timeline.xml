@@ -34,5 +34,4 @@ tools:context="com.codepath.apps.critter_redux.activities.TimelineActivity">
         app:backgroundTint="@android:color/holo_blue_light"
         app:layout_anchor="@id/rvTweets"
         app:layout_anchorGravity="bottom|right|end" />
-
 </android.support.design.widget.CoordinatorLayout>
