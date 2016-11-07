@@ -30,6 +30,7 @@ tools:context="com.codepath.apps.critter_redux.activities.TimelineActivity">
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:onClick="compose"
         android:src="@drawable/ic_create_white_48dp"
         app:backgroundTint="@android:color/holo_blue_light"
         app:layout_anchor="@id/rvTweets"

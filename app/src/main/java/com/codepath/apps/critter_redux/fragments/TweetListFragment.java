@@ -86,7 +86,7 @@ public abstract class TweetListFragment extends Fragment {
 
 
 
-    protected void refreshTimelineAndScrollUp(Tweet newTweet) {
+    public void refreshTimelineAndScrollUp(Tweet newTweet) {
         tweets.add(0, newTweet);
 
         tweetsAdapter.notifyItemInserted(0);
@@ -143,46 +143,13 @@ public abstract class TweetListFragment extends Fragment {
     }
 
 
-//    protected void enableInfiniteScroll() {
-//        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-//            @Override
-//            public void onLoadMore(long max_id, int totalItemsCount, RecyclerView view) {
-//                // Triggered only when new data needs to be appended to the list of tweets
-//                populateTimeline(index);
-//                //getLocalTweets();
-//            }
-//        };
-//
-//        // Add the scroll listener to RecyclerView
-//        rvTweets.addOnScrollListener(scrollListener);
-//    }
 
+    // Abstract methods to be overridden depending on which tab is displaying and which user:
     protected abstract void enableInfiniteScroll();
 
-//    protected void setRefreshOnSwipe() {
-//
-//        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//
-//                int size = tweets.size();
-//                tweets.clear();
-//                //tweetsAdapter.clear();
-//                //notify the changes
-//                tweetsAdapter.notifyItemRangeRemoved(0, size);
-//
-//                //reset index and call get home timeline again
-//                index = -1L;
-//                populateTimeline(index);
-//                //getLocalTweets();
-//
-//                swipeContainer.setRefreshing(false);
-//            }
-//        });
-//    }
 
     protected abstract void setRefreshOnSwipe();
 
-    // Abstract method to be overridden depending on which tab is displaying
+
     protected abstract void populateTimeline(long maxId, String screenName);
 }

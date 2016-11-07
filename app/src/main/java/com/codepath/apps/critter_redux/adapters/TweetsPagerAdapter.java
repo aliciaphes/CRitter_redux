@@ -2,7 +2,6 @@ package com.codepath.apps.critter_redux.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 
 import com.codepath.apps.critter_redux.fragments.HomeTimelineFragment;
 import com.codepath.apps.critter_redux.fragments.MentionsTimelineFragment;
@@ -10,7 +9,7 @@ import com.codepath.apps.critter_redux.fragments.MentionsTimelineFragment;
 
 
 //return the order of the fragments in the viewpager
-public class TweetsPagerAdapter extends FragmentPagerAdapter {
+public class TweetsPagerAdapter extends SmartFragmentStatePagerAdapter{ //FragmentPagerAdapter {
     private String tabTitles[] = {"Home", "Mentions"};
 
 
@@ -33,14 +32,14 @@ public class TweetsPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-    //return the tab title
+    //how many fragments there are to swipe between
     @Override
     public int getCount() {
         return tabTitles.length;
     }
 
 
-    //how many fragments there are to swipe between
+    //return the tab title
     @Override
     public CharSequence getPageTitle(int position) {
         return tabTitles[position];

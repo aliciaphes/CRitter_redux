@@ -7,18 +7,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.critter_redux.R;
+import com.codepath.apps.critter_redux.TwitterClient;
+import com.codepath.apps.critter_redux.adapters.SmartFragmentStatePagerAdapter;
 import com.codepath.apps.critter_redux.adapters.TweetsPagerAdapter;
+import com.codepath.apps.critter_redux.fragments.ComposeFragment;
+import com.codepath.apps.critter_redux.fragments.HomeTimelineFragment;
+import com.codepath.apps.critter_redux.fragments.TweetListFragment;
+import com.codepath.apps.critter_redux.listeners.PostTwitterListener;
+import com.codepath.apps.critter_redux.models.Tweet;
+import com.codepath.apps.critter_redux.util.DummyData;
+import com.codepath.apps.critter_redux.util.Utilities;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 
 public class TimelineActivity extends AppCompatActivity {
 
-    //private FragmentManager fm;
+    private ViewPager vpPager;
+
+    private SmartFragmentStatePagerAdapter adapterViewPager;
+
     //private TweetListFragment timelineFragment;
 
-    //private ComposeFragment composeFragment;//
+    private TwitterClient twitterClient;
+
+    private ComposeFragment composeFragment;
 
 
     @Override
@@ -31,18 +53,10 @@ public class TimelineActivity extends AppCompatActivity {
 
         setupPagedFragments();
 
-        //setupComposeBehavior();
-
-
-//        fm = getSupportFragmentManager();
-//        if (savedInstanceState == null) {
-//            timelineFragment = (TweetListFragment) fm.findFragmentById(R.id.fragment_timeline);
-//        }
-
     }
 
     private void setupPagedFragments() {
-        ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
+        vpPager = (ViewPager) findViewById(R.id.viewpager);
         vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager()));
 
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabstrip);
@@ -57,46 +71,38 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
 
+    //this method is called when the floating button is pressed
+    public void compose(View v) {
+        showComposeDialog();
+        composeFragment.setCustomObjectListener(new PostTwitterListener() {
+            @Override
+            public void onPostTwitter(String tweetBody) {
+                composeFragment.dismiss();
 
-/*
-    private void setupComposeBehavior() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_compose);
-        fab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                showComposeDialog();
-                composeFragment.setCustomObjectListener(new PostTwitterListener() {
-                    @Override
-                    public void onPostTwitter(String tweetBody) {
-                        composeFragment.dismiss();
-
-                        *//** BEGIN IMPORTANT BLOCK *//*
-                        postTweet(tweetBody);
-                        *//** This block is to be commented/deleted, only used to avoid tweeting every time I test.
-     ALSO DO NOT FORGET TO UNCOMMENT THE ABOVE CALL TO postTweet!!
-     *//*
-//                        try {
-//                            //create dummy tweet
-//                            Tweet newTweet = Tweet.fromJSON(new JSONObject(DummyData.DUMMY_TWEET));
-//                            refreshTimelineAndScrollUp(newTweet);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-                        *//** END IMPORTANT BLOCK *//*
-                    }
-                });
+                /** BEGIN IMPORTANT BLOCK */
+                //postTweet(tweetBody);
+                /** This block is to be commented/deleted, only used to avoid tweeting every time I test.
+                 ALSO DO NOT FORGET TO UNCOMMENT THE ABOVE CALL TO postTweet!!
+                 */
+                try {
+                    //create dummy tweet
+                    Tweet newTweet = Tweet.fromJSON(new JSONObject(DummyData.DUMMY_TWEET));
+                    addAndDisplay(newTweet);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                /** END IMPORTANT BLOCK */
             }
         });
+
+
     }
-    */
 
 
-
-/*
     private void showComposeDialog() {
         composeFragment = ComposeFragment.newInstance("Compose tweet");
-        composeFragment.show(fm, "fragment_add_tweet");
+        composeFragment.show(getSupportFragmentManager(), "fragment_add_tweet");
     }
-    */
 
 
     //todo: improve API calls by adding since_id (?)
@@ -104,19 +110,17 @@ public class TimelineActivity extends AppCompatActivity {
     //todo: change bar title
 
 
-/*
     private void postTweet(String tweet) {
         if (Utilities.isNetworkAvailable(this) && Utilities.isOnline()) {
             twitterClient.postTweet(new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                    //super.onSuccess(statusCode, headers, response);
 
                     //get new tweet that was generated
                     Tweet newTweet = Tweet.fromJSON(response);
                     //newTweet = Tweet.fromJSON(new JSONObject(Utilities.dummyTweet));
 
-                    refreshTimelineAndScrollUp(newTweet);
+                    addAndDisplay(newTweet);
                 }
 
                 @Override
@@ -134,8 +138,21 @@ public class TimelineActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), R.string.device_not_connected, Toast.LENGTH_SHORT).show();
         }
     }
-*/
 
+
+    protected void addAndDisplay(Tweet newTweet) {
+        //get current fragment that is displayed:
+        adapterViewPager = (SmartFragmentStatePagerAdapter) vpPager.getAdapter();
+
+        TweetListFragment f = (TweetListFragment) adapterViewPager.getRegisteredFragment(vpPager.getCurrentItem());
+
+        //only if HomeTimeLine is displaying, we update it with the new tweet
+        if (f instanceof HomeTimelineFragment) {
+            f.refreshTimelineAndScrollUp(newTweet);
+
+            Toast.makeText(this, "Twitter was added", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
     @Override
