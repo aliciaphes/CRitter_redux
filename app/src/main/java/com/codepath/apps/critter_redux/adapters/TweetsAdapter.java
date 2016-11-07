@@ -1,17 +1,23 @@
 package com.codepath.apps.critter_redux.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.codepath.apps.critter_redux.R;
+import com.codepath.apps.critter_redux.activities.ProfileActivity;
 import com.codepath.apps.critter_redux.listeners.OnItemClickListener;
 import com.codepath.apps.critter_redux.models.Tweet;
+import com.codepath.apps.critter_redux.models.User;
 import com.codepath.apps.critter_redux.util.Utilities;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -22,10 +28,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
     private List<Tweet> tweets;
 
-    private static OnItemClickListener listener;
+    private OnItemClickListener listener;
     //Listener interface defined in OnItemClickListener.java
-
-
 
 
     // Define the method that allows the parent activity to define the listener
@@ -34,10 +38,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     }
 
 
+    /*****
+     * Creating ViewHolder
+     *****/
 
-    /***** Creating ViewHolder *****/
-
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         // holder should contain a member variable
         // for any view that will be set to render a row
 
@@ -62,9 +67,10 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody = (TextView) itemView.findViewById(R.id.tv_body);
 
 
-
             // Attach a click listener to the 'row' by bubbling up
-            itemView.setOnClickListener(new View.OnClickListener() {
+            LinearLayout ll_textLayout = (LinearLayout) itemView.findViewById(R.id.texts_layout);
+            //itemView.setOnClickListener(new View.OnClickListener() {
+            ll_textLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Triggers click upwards to the adapter on click
@@ -76,7 +82,6 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     }
                 }
             });
-
         }
     }//end class ViewHolder
 
@@ -104,9 +109,10 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         // Get the data model based on position
-        Tweet tweet = tweets.get(position);
+        final Tweet tweet = tweets.get(position);
+        final User user = tweet.getUser();
 
         // Set item views based on views and data model
 
@@ -117,9 +123,21 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 //                .placeholder(R.drawable.placeholder)
 //                .into(holder.ivProfileImage);
 
-        holder.tvUserName.setText(tweet.getUser().getName());
 
-        holder.tvHandle.setText("@"+tweet.getUser().getScreenName());
+        holder.ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = tweet.getUser();
+                Intent i = new Intent(getContext(), ProfileActivity.class);
+                i.putExtra("user", Parcels.wrap(user));
+                getContext().startActivity(i);
+            }
+        });
+
+
+        holder.tvUserName.setText(user.getName());
+
+        holder.tvHandle.setText("@" + user.getScreenName());
 
         holder.tvTimestamp.setText(Utilities.getRelativeTimeAgo(tweet.getCreatedAt()));
 
@@ -127,12 +145,10 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     }
 
 
-
     @Override
     public int getItemCount() {
         return tweets.size();
     }
-
 
 
 }

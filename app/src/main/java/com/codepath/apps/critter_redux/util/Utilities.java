@@ -19,6 +19,8 @@ import java.util.Locale;
 
 public class Utilities {
 
+    public static final int TOOLBAR_ID = R.id.toolbar;
+
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
     public static String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
@@ -61,8 +63,8 @@ public class Utilities {
         return false;
     }
 
-    public static void GoToPreviousScreenWithToolbar(final AppCompatActivity activity) {
-        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+    public static void GoToPreviousScreenWithToolbar(final AppCompatActivity activity, int toolbarID) {
+        Toolbar toolbar = (Toolbar) activity.findViewById(toolbarID);
         activity.setSupportActionBar(toolbar);
 
         ActionBar actionBar = activity.getSupportActionBar();

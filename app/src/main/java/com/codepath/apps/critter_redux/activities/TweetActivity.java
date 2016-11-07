@@ -19,7 +19,7 @@ public class TweetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tweet);
 
-        Utilities.GoToPreviousScreenWithToolbar(this);
+        Utilities.GoToPreviousScreenWithToolbar(this, Utilities.TOOLBAR_ID);
 
         //retrieve tweet from intent
         Tweet currentTweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));

@@ -2,7 +2,6 @@ package com.codepath.apps.critter_redux.fragments;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +21,17 @@ import cz.msebera.android.httpclient.Header;
 public class HomeTimelineFragment extends TweetListFragment {
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //first call, max_id is -1 so it won't be included as parameter in the API call
-        //populateTimeline(index);
+        //populateTimeline(index, null);//null means our own timeline
         getLocalTweets();
     }
 
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, parent, savedInstanceState);
         return v;
     }
@@ -41,7 +39,7 @@ public class HomeTimelineFragment extends TweetListFragment {
 
     //send API request to get the timeline JSON
     //and fill the recyclerview with the data retrieved by creating tweet objects
-    public void populateTimeline(long maxId) {
+    public void populateTimeline(long maxId, String screenName) {
 
         //check connectivity:
         if (Utilities.isNetworkAvailable(getContext()) && Utilities.isOnline()) {

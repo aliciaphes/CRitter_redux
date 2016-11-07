@@ -1,6 +1,7 @@
 package com.codepath.apps.critter_redux.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.critter_redux.R;
+import com.codepath.apps.critter_redux.activities.ProfileActivity;
 import com.codepath.apps.critter_redux.models.Tweet;
 import com.codepath.apps.critter_redux.util.Utilities;
 
@@ -20,6 +22,8 @@ import org.parceler.Parcels;
 public class TweetFragment extends Fragment {
 
     private final int FONT_SIZE = 14;
+
+    private Tweet currentTweet;
 
     private ImageView ivProfileImage;
     private TextView tvUserName;
@@ -53,15 +57,19 @@ public class TweetFragment extends Fragment {
         //identify the fields to give them values later
         getReferences(view);
 
-        Tweet tweet = Parcels.unwrap(getArguments().getParcelable("tweet"));
+        currentTweet = Parcels.unwrap(getArguments().getParcelable("tweet"));
         //populate fragment from tweet
-        if (tweet != null) {
-            setUpValues(tweet);
+        if (currentTweet != null) {
+            setUpValues();
         }
 
         ActionBar toolbar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        toolbar.setTitle("Tweet by @"+ tweet.getUser().getScreenName());
+        toolbar.setTitle("Tweet by @"+ currentTweet.getUser().getScreenName());
+
+        setUpDisplayProfileOnClick();
     }
+
+
 
 
     private void getReferences(View v) {
@@ -74,7 +82,7 @@ public class TweetFragment extends Fragment {
 
 
 
-    private void setUpValues(Tweet currentTweet) {
+    private void setUpValues() {
         //clear image in case it had a previous value
         ivProfileImage.setImageResource(android.R.color.transparent);
         //then load image with Picasso //todo: not for now
@@ -96,4 +104,14 @@ public class TweetFragment extends Fragment {
     }
 
 
+    private void setUpDisplayProfileOnClick() {
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), ProfileActivity.class);
+                i.putExtra("user", Parcels.wrap(currentTweet.getUser()));
+                startActivity(i);
+            }
+        });
+    }
 }

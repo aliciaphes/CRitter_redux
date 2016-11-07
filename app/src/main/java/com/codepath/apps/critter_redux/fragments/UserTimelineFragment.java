@@ -2,7 +2,6 @@ package com.codepath.apps.critter_redux.fragments;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,12 @@ import android.widget.Toast;
 
 import com.codepath.apps.critter_redux.R;
 import com.codepath.apps.critter_redux.models.Tweet;
+import com.codepath.apps.critter_redux.models.User;
 import com.codepath.apps.critter_redux.util.Utilities;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -21,30 +22,42 @@ import cz.msebera.android.httpclient.Header;
 
 public class UserTimelineFragment extends TweetListFragment {
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private User currentUser;
 
-        //first call, max_id is -1 so it won't be included as parameter in the API call
-        //populateTimeline(index);
-        getLocalTweets();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, parent, savedInstanceState);
         return v;
     }
 
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        currentUser = Parcels.unwrap(getArguments().getParcelable("user"));
+        if (currentUser == null) {
+            //populateTimeline(index, null);
+            getLocalTweets();
+        }
+        else{
+            //populateTimeline(index, currentUser.getScreenName());
+            getLocalTweets();
+        }
+    }
+
     // Creates a new fragment
-    public static UserTimelineFragment newInstance(String screenName) {
+    //public static UserTimelineFragment newInstance(String screenName) {
+    public static UserTimelineFragment newInstance(User currentUser) {
         UserTimelineFragment fragmentInstance = new UserTimelineFragment();
 
         Bundle args = new Bundle();
-        args.putString("screen_name", screenName);
+        //args.putString("screen_name", screenName);
+        args.putParcelable("user", Parcels.wrap(currentUser));
         fragmentInstance.setArguments(args);
 
         return fragmentInstance;
@@ -53,12 +66,12 @@ public class UserTimelineFragment extends TweetListFragment {
 
     //send API request to get the timeline JSON
     //and fill the recyclerview with the data retrieved by creating tweet objects
-    public void populateTimeline(long maxId) {
+    public void populateTimeline(long maxId, String screenName) {
 
         //check connectivity:
         if (Utilities.isNetworkAvailable(getContext()) && Utilities.isOnline()) {
 
-            String screenName = getArguments().getString("screen_name");
+            //String screenName = getArguments().getString("screen_name");
 
             twitterClient.getUserTimeline(new JsonHttpResponseHandler() {
                 @Override

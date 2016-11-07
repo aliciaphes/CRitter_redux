@@ -21,6 +21,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -28,7 +29,7 @@ import cz.msebera.android.httpclient.Header;
 public class UserHeaderFragment extends Fragment {
 
     private TwitterClient twitterClient;
-    private User user;
+    private User currentUser;
 
     private TextView tvName;
     private TextView tvTagline;
@@ -40,7 +41,6 @@ public class UserHeaderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
 
@@ -56,35 +56,46 @@ public class UserHeaderFragment extends Fragment {
         //identify the fields to give them values later
         getReferences(view);
 
-        String screenName = getArguments().getString("screen_name");
+        //String screenName = getArguments().getString("screen_name");//todo: get rid of this
 
-        //populateUserHeader(screenName);
-        populateDummyUserInfo();
+        currentUser = Parcels.unwrap(getArguments().getParcelable("user"));
+        //if user is not null, it means it's not the logged user
+        //therefore we already have the information from the user
+        //we just need to display it
+
+
+        //if (screenName == null) {
+        if (currentUser == null) {
+            //String screenName = currentUser.getScreenName();
+            //populateUserHeader();
+            populateDummyUserInfo();
+        }
+        fillWithHeaderValues();
     }
 
 
-
     // Create a new fragment
-    public static UserHeaderFragment newInstance(String screenName) {
+    //public static UserHeaderFragment newInstance(String screenName) {
+    public static UserHeaderFragment newInstance(User currentUser) {
         UserHeaderFragment fragmentInstance = new UserHeaderFragment();
 
         Bundle args = new Bundle();
-        args.putString("screen_name", screenName);
+//        args.putString("screen_name", screenName);
+        args.putParcelable("user", Parcels.wrap(currentUser));
         fragmentInstance.setArguments(args);
 
         return fragmentInstance;
     }
 
 
-
     private void populateDummyUserInfo() {
         JSONObject jsonObject = DummyData.getDummyProfile(getContext());
-        user = User.fromJSON(jsonObject);
+        currentUser = User.fromJSON(jsonObject);
         fillWithHeaderValues();
     }
 
 
-    private void populateUserHeader(String screenName) {
+    private void populateUserHeader() {
 
         twitterClient = TwitterApplication.getRestClient();//get singleton client
 
@@ -95,10 +106,10 @@ public class UserHeaderFragment extends Fragment {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     //establish who the user is:
-                    user = User.fromJSON(response);
+                    currentUser = User.fromJSON(response);
 
                     //visibly show the user's info
-                    fillWithHeaderValues();
+                    //fillWithHeaderValues();
                 }
 
                 @Override
@@ -128,12 +139,12 @@ public class UserHeaderFragment extends Fragment {
 
     private void fillWithHeaderValues() {
 
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("@" + user.getScreenName());
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("@" + currentUser.getScreenName());
 
-        tvName.setText(user.getName());
-        tvTagline.setText(user.getTagline());
-        tvFollowers.setText(Integer.toString(user.getFollowersCount()) + " followers");
-        tvFollowing.setText(Integer.toString(user.getFollowingCount()) + " following");
+        tvName.setText(currentUser.getName());
+        tvTagline.setText(currentUser.getTagline());
+        tvFollowers.setText(Integer.toString(currentUser.getFollowersCount()) + " followers");
+        tvFollowing.setText(Integer.toString(currentUser.getFollowingCount()) + " following");
 
         //todo: picasso on ivImage
     }

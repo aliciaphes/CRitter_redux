@@ -3,7 +3,6 @@ package com.codepath.apps.critter_redux.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,9 +45,8 @@ public abstract class TweetListFragment extends Fragment {
     protected SwipeRefreshLayout swipeContainer;
 
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_timeline, parent, false);
 
         rvTweets = (RecyclerView) v.findViewById(R.id.rvTweets);
@@ -64,7 +62,7 @@ public abstract class TweetListFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         twitterClient = TwitterApplication.getRestClient();//get singleton client
@@ -186,5 +184,5 @@ public abstract class TweetListFragment extends Fragment {
 
 
     // Abstract method to be overridden depending on which tab is displaying
-    protected abstract void populateTimeline(long maxId);
+    protected abstract void populateTimeline(long maxId, String screenName);
 }
