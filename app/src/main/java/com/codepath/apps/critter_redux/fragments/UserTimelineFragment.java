@@ -43,6 +43,7 @@ public class UserTimelineFragment extends TweetListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         currentUser = Parcels.unwrap(getArguments().getParcelable("user"));
+
         if (currentUser == null) {
             populateTimeline(index, null);
             //getLocalTweets();

@@ -143,8 +143,74 @@ public abstract class TweetListFragment extends Fragment {
     }
 
 
+//    protected MenuItem miActionProgressItem;
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        inflater.inflate(R.menu.menu_timeline, menu);
+//        miActionProgressItem = menu.findItem(R.id.mi_action_progress);
+//    }
+//    public void showProgressBar() {
+//        if (miActionProgressItem != null)
+//            miActionProgressItem.setVisible(true);
+//    }
+//
+//    public void hideProgressBar() {
+//        if (miActionProgressItem != null)
+//            miActionProgressItem.setVisible(false);
+//    }
+
+
+
+
+
+//    Menu menu;
+
+//    //Initialize the contents of the Activity's standard options menu.
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+////////        menuInflater.inflate(R.menu.menu_timeline, menu);
+////////        //super.onCreateOptionsMenu(menu, menuInflater);
+////////        getActivity().onCreateOptionsMenu(menu);
+////////        MenuItem pinMenuItem = menu.findItem(R.id.mi_action_progress);
+//////        menuInflater.inflate(R.menu.menu_timeline, menu);
+//////        //getActivity().onCreateOptionsMenu(menu);
+//////        //getActivity().getMenuInflater().inflate(R.menu.menu_timeline, menu);
+//////        MenuItem pinMenuItem = menu.findItem(R.id.mi_action_progress);
+//////        pinMenuItem.setVisible(true);
+////        getActivity().onCreateOptionsMenu(menu);
+////        menu.clear();
+////        menuInflater.inflate(R.menu.menu_timeline, menu);
+////        MenuItem pinMenuItem = menu.findItem(R.id.mi_action_progress);
+////        pinMenuItem.setVisible(true);
+//        this.menu = menu;
+//    }
+
+
+//    @Override
+//    //prepare the items to be displayed
+//    public void onPrepareOptionsMenu(Menu menu) {
+////        getActivity().onPrepareOptionsMenu(menu);
+////        MenuItem pinMenuItem = menu.findItem(R.id.mi_action_progress);
+////        pinMenuItem.setVisible(true);
+////        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+////
+////        super.onPrepareOptionsMenu(menu);
+//        this.menu = menu;
+//    }
+
+
+
+//    private void showProgressBar() {
+//        MenuItem pinMenuItem = menu.findItem(R.id.mi_action_progress);
+//        pinMenuItem.setVisible(true);
+//    }
+
+
+
+
+
 
     // Abstract methods to be overridden depending on which tab is displaying and which user:
+    //todo: or instead maybe create switch() depending which instance the fragment is of
     protected abstract void enableInfiniteScroll();
 
 

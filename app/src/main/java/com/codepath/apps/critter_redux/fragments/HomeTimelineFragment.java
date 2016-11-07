@@ -47,8 +47,6 @@ public class HomeTimelineFragment extends TweetListFragment {
         //check connectivity:
         if (Utilities.isNetworkAvailable(getContext()) && Utilities.isOnline()) {
 
-            //((TimelineActivity)getActivity()).showProgressBar();
-
             twitterClient.getHomeTimeline(new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -70,8 +68,6 @@ public class HomeTimelineFragment extends TweetListFragment {
                         updateIndex();
                     }
                     swipeContainer.setRefreshing(false);
-
-                    //((TimelineActivity)getActivity()).hideProgressBar();
                 }
 
                 @Override

@@ -42,7 +42,6 @@ public class UserHeaderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setHasOptionsMenu(true);
     }
 
 
@@ -105,7 +104,7 @@ public class UserHeaderFragment extends Fragment {
         //check connectivity:
         if (Utilities.isNetworkAvailable(getContext()) && Utilities.isOnline()) {
 
-            //showProgressBar();
+            //todo: show and hide progress bar
 
             twitterClient.getUserInfo(new JsonHttpResponseHandler() {
                 @Override
@@ -115,8 +114,6 @@ public class UserHeaderFragment extends Fragment {
 
                     //visibly show the user's info
                     fillWithHeaderValues();
-
-                    //hideProgressBar();
                 }
 
                 @Override
@@ -159,6 +156,4 @@ public class UserHeaderFragment extends Fragment {
                 .placeholder(R.drawable.placeholder)
                 .into(ivImage);
     }
-
-
 }

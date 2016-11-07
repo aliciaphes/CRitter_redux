@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.critter_redux.R;
+import com.codepath.apps.critter_redux.TwitterApplication;
 import com.codepath.apps.critter_redux.TwitterClient;
 import com.codepath.apps.critter_redux.adapters.SmartFragmentStatePagerAdapter;
 import com.codepath.apps.critter_redux.adapters.TweetsPagerAdapter;
@@ -51,6 +52,8 @@ public class TimelineActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        twitterClient = TwitterApplication.getRestClient();//get singleton client
+
         setupPagedFragments();
 
     }
@@ -80,23 +83,28 @@ public class TimelineActivity extends AppCompatActivity {
                 composeFragment.dismiss();
 
                 /** BEGIN IMPORTANT BLOCK */
-                //postTweet(tweetBody);
+                postTweet(tweetBody);
                 /** This block is to be commented/deleted, only used to avoid tweeting every time I test.
                  ALSO DO NOT FORGET TO UNCOMMENT THE ABOVE CALL TO postTweet!!
                  */
-                try {
-                    //create dummy tweet
-                    Tweet newTweet = Tweet.fromJSON(new JSONObject(DummyData.DUMMY_TWEET));
-                    addAndDisplay(newTweet);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                //createDummyTweet();
                 /** END IMPORTANT BLOCK */
             }
         });
 
 
     }
+
+    public void createDummyTweet(){
+        try {
+            //create dummy tweet
+            Tweet newTweet = Tweet.fromJSON(new JSONObject(DummyData.DUMMY_TWEET));
+            addAndDisplay(newTweet);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     private void showComposeDialog() {
@@ -149,8 +157,6 @@ public class TimelineActivity extends AppCompatActivity {
         //only if HomeTimeLine is displaying, we update it with the new tweet
         if (f instanceof HomeTimelineFragment) {
             f.refreshTimelineAndScrollUp(newTweet);
-
-            Toast.makeText(this, "Twitter was added", Toast.LENGTH_SHORT).show();
         }
     }
 
